@@ -49,7 +49,7 @@ server.post('/hubs', (req, res) => {
             res.status(201).json(hub);
         })
         .catch(error => {
-            res.status(500).json({ message: 'error creating hubs' });
+            res.status(500).json({ message: 'error creating hub' });
         });
 });
 
