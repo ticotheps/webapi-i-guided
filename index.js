@@ -1,6 +1,8 @@
 const express = require('express'); // CommonJS Modules
 // the same as 'import express from "express"'; // ES2015 Modules
 
+const db = require('./data/db.js'); // Imports the db.js file into this file
+
 const server = express();
 
 server.get('/', (req, res) => {
@@ -12,6 +14,24 @@ server.get('/now', (req, res) => {
     const now = new Date().toISOString();
     res.send(now);
 });
+
+// CRUD operations
+server.get('/hubs', (req, res) => {
+    db.hubs
+        .find()
+        .then(hubs => {
+            // 200-299 = success
+            // 300-399 = rediret
+            // 400-499 = client error
+            // 500-599 = server error
+            res.status(200).json(hubs); // This is saying return a status code '200' as well as the 'hubs' object
+        })
+        .catch(error => {
+            // handle it
+            res.status(500).json({ message: 'error retrieving hubs' });
+        });
+});
+
 
 server.listen(4000, () => {
     console.log('\n** API up and running on port 4K **');

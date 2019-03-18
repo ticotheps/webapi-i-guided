@@ -1,3 +1,6 @@
+// 'module.exports' is the npm equivalent of 'export default ComponentName'
+// It is used to gain access to properties on the 'hubs' object on the module object.
+
 module.exports = {
   hubs: {
     find: findHubs,
