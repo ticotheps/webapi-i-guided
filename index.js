@@ -53,22 +53,40 @@ server.post('/hubs', (req, res) => {
         });
 });
 
-// // The 'U' in CRUD
-// server.post('/hubs', (req, res) => {
-//     // read the data for the hub
-//     const hubInfo = req.body; // 'the body' is the content of the request
-//     console.log('hub information', hubInfo);
+// The 'D' in CRUD
+server.delete('/hubs/:id', (req, res) => {
+    // read the data for the hub
+    const id = req.params.id; // this is an object that express will grab and place a key on that dynamic id
 
-//     // updates the hub to our db
-//     db.hubs
-//         .update(hubInfo)
-//         .then(hub => {
-//             res.status(201).json(hub);
-//         })
-//         .catch(error => {
-//             res.status(500).json({ message: 'error creating hubs' });
-//         });
-// });
+    // tells the hubs to remove the hub with the specific id from our db
+    db.hubs
+        .remove(id)
+        .then(deleted => {
+            res.status(204).end(); // tells the client the request is done
+        })
+        .catch(error => {
+            res.status(500).json({ message: 'error deleting the hub' });
+        });
+});
+
+// The 'U' in CRUD
+server.put('/hubs/:id', (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+  
+    db.hubs
+      .update(id, changes)
+      .then(updated => {
+        if (updated) {
+          res.status(200).json(updated);
+        } else {
+          res.status(404).json({ message: 'hub not found' });
+        }
+      })
+      .catch(error => {
+        res.status(500).json({ message: 'error updating the hub' });
+      });
+  });
 
 
 server.listen(4000, () => {
