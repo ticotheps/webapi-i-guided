@@ -4,6 +4,8 @@ const express = require('express'); // CommonJS Modules
 const db = require('./data/db.js'); // Imports the db.js file into this file
 
 const server = express();
+server.use(express.json()); // *** Add this middleware to teach express how 
+                            // to parse JSON (to make POST and PUT requests work) ***
 
 server.get('/', (req, res) => {
     res.send('Hello Web XVII');
@@ -16,6 +18,8 @@ server.get('/now', (req, res) => {
 });
 
 // CRUD operations
+
+// The 'R' in CRUD
 server.get('/hubs', (req, res) => {
     db.hubs
         .find()
@@ -31,6 +35,40 @@ server.get('/hubs', (req, res) => {
             res.status(500).json({ message: 'error retrieving hubs' });
         });
 });
+
+// The 'C' in CRUD
+server.post('/hubs', (req, res) => {
+    // read the data for the hub
+    const hubInfo = req.body; // 'the body' is the content of the request
+    console.log('hub information', hubInfo);
+
+    // add the hub to our db
+    db.hubs
+        .add(hubInfo)
+        .then(hub => {
+            res.status(201).json(hub);
+        })
+        .catch(error => {
+            res.status(500).json({ message: 'error creating hubs' });
+        });
+});
+
+// // The 'U' in CRUD
+// server.post('/hubs', (req, res) => {
+//     // read the data for the hub
+//     const hubInfo = req.body; // 'the body' is the content of the request
+//     console.log('hub information', hubInfo);
+
+//     // updates the hub to our db
+//     db.hubs
+//         .update(hubInfo)
+//         .then(hub => {
+//             res.status(201).json(hub);
+//         })
+//         .catch(error => {
+//             res.status(500).json({ message: 'error creating hubs' });
+//         });
+// });
 
 
 server.listen(4000, () => {
