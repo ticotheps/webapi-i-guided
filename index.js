@@ -3,14 +3,18 @@ const express = require('express'); // CommonJS Modules
 
 const server = express();
 
+server.get('/', (req, res) => {
+    res.send('Hello Web XVII');
+});
+
 server.listen(4000, () => {
     console.log('\n** API up and running on port 4K **');
 });
 
-// STEP-by-STEP
-// run yarn => downloads dependencies
-// yarn add express
-// yarn server
-// add index.js
+// Step 1: Run 'Yarn' (downloads the dependancies)
+// Step 2: 'Yarn add express' (Installs the dependancy)
+// Step 3: 'add index.js' into the same directory as your package.json - save (Required to run the server!)
+// Step 4: yarn server into the terminal (Starts up your server)
+// Step 5: Go to localhost:4000 in your browser.
 
 // npm run server vs yarn server
