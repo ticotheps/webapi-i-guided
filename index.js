@@ -7,6 +7,12 @@ server.get('/', (req, res) => {
     res.send('Hello Web XVII');
 });
 
+// write a GET /now endpoint that returns current date and time as a string
+server.get('/now', (req, res) => {
+    const now = new Date().toISOString();
+    res.send(now);
+});
+
 server.listen(4000, () => {
     console.log('\n** API up and running on port 4K **');
 });
